@@ -1,0 +1,28 @@
+﻿@page
+@using System.Data.SqlClient;
+@model ClientInventory.Pages.Clients.Index1Model
+@{
+
+    string id = Request.Query["id"];
+
+    try
+    {
+        string connectionString = "Data Source=USHYDVIKASSJHA7;Initial Catalog=SampleSSIS;Integrated Security=True";
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+            conn.Open();
+            string sqlcmd = " Delete  from clients where id=@id";
+            using (SqlCommand cmd = new SqlCommand(sqlcmd, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    catch(Exception ex)
+    {
+
+    }
+    Response.Redirect("/Clients/Index");
+}
